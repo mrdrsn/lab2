@@ -11,6 +11,15 @@ package com.mycompany.lab2;
 public class Lab2 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        OrkGUI gui = new OrkGUI();
+//        OrkBuilder mordor = OrkBuilderFactory.createOrkBuilder("Mordor");
+//        OrkDirector director = new OrkDirector();
+//        director.setOrkBuilder(mordor);
+//        director.createBasicOrk();
+//        System.out.println(director.getOrk());
+//        director.createLeaderOrk();
+//        System.out.println(director.getOrk());
+//        director.createScoutOrk();
+//        System.out.println(director.getOrk());
     }
 }
