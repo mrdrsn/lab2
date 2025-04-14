@@ -3,6 +3,7 @@ package com.mycompany.lab2;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -10,16 +11,22 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 
 public class TreeModelCreator {
-    public static JTree createArmyTree(){
-        
+
+    public static JScrollPane createArmyTree() {
+
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Армия Мордора");
         JTree myOrkTree = new JTree(root);
-        myOrkTree.setPreferredSize(new Dimension(250,400));
+        myOrkTree.setPreferredSize(new Dimension(250, 600));
         myOrkTree.setBackground(Color.LIGHT_GRAY);
         myOrkTree.setCellRenderer(new CustomTreeCellRenderer());
-        return myOrkTree;
+        JScrollPane scrollPane = new JScrollPane(myOrkTree);
+        scrollPane.setPreferredSize(new Dimension(250, 600)); // Устанавливаем размер скролл-панели
+
+        return scrollPane;
     }
-    public static void addTribeRoot(JTree orkTree, String tribe) {
+
+    public static void addTribeRoot(JScrollPane orkScroll, String tribe) {
+        JTree orkTree = (JTree) orkScroll.getViewport().getView();
         if (isNodeExists(orkTree, tribe)) {
             return;
         }
@@ -30,8 +37,10 @@ public class TreeModelCreator {
         // Уведомляем модель об изменении структуры дерева
         model.reload(mainRoot);
     }
-    
-    public static void addOrkRoot(JTree orkTree, Ork orkFromController, String tribeName) {
+
+    public static void addOrkRoot(JScrollPane orkScroll, Ork orkFromController, String tribeName) {
+        JTree orkTree = (JTree) orkScroll.getViewport().getView();
+
         // Создаем новый узел для орка
         DefaultMutableTreeNode newOrk = new DefaultMutableTreeNode(orkFromController);
 
@@ -60,12 +69,12 @@ public class TreeModelCreator {
         }
     }
 
-    
     private static boolean isNodeExists(JTree tree, String nodeName) {
         TreeModel model = tree.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         return searchNode(root, nodeName);
     }
+
     private static boolean searchNode(DefaultMutableTreeNode node, String nodeName) {
         if (node.getUserObject().toString().equals(nodeName)) {
             return true;
@@ -78,12 +87,12 @@ public class TreeModelCreator {
         }
         return false;
     }
-    
-    
+
     private static class CustomTreeCellRenderer extends DefaultTreeCellRenderer {
+
         @Override
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean isSelected, boolean expanded,
-                                                    boolean leaf, int row, boolean hasFocus) {
+                boolean leaf, int row, boolean hasFocus) {
             super.getTreeCellRendererComponent(tree, value, isSelected, expanded, leaf, row, hasFocus);
 
             // Настройка цвета фона для неактивных узлов

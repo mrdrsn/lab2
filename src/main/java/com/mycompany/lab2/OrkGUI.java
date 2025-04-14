@@ -3,9 +3,7 @@ package com.mycompany.lab2;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -18,13 +16,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class OrkGUI extends JFrame {
 
-    private JTree orkTree;
+    private JScrollPane orkTree;
 
     public OrkGUI() {
         super("Лабораторная работа 2");
@@ -54,7 +53,6 @@ public class OrkGUI extends JFrame {
         JFrame mainFrame = new JFrame("Настройка армии");
         JPanel mainPanel = new JPanel();
         JPanel treePanel = new JPanel();
-        JPanel infoPanel = new JPanel();
         JPanel cardPanel = GUIDesign.createCardPanel();
 
         JPanel buttonPanel = new JPanel();
@@ -125,11 +123,12 @@ public class OrkGUI extends JFrame {
             cardLayout.show(cardPanel, "BUTTON_PANEL"); // Показываем панель с кнопками
         });
 
-        orkTree.addMouseListener(new MouseAdapter() {
+        JTree tree = (JTree) orkTree.getViewport().getView();
+        tree.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1) { // Проверяем двойной клик
-                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) orkTree.getLastSelectedPathComponent();
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
                     if (selectedNode != null && selectedNode.getUserObject() instanceof Ork) {
                         Ork selectedOrk = (Ork) selectedNode.getUserObject();
                         displayOrkInfo(cardPanel, selectedOrk, backButton); // Отображаем информацию об орке
@@ -213,25 +212,19 @@ public class OrkGUI extends JFrame {
     }
 
     private void displayOrkInfo(JPanel cardPanel, Ork ork, JButton backButton) {
-        // Получаем CardLayout и панели
         JPanel orkInfoPanel = (JPanel) cardPanel.getComponent(1); // ORK_INFO_PANEL
 
-        // Очищаем панель с информацией об орке
         orkInfoPanel.removeAll();
 
-        // Создаем новую панель для отображения информации об орке
         JPanel detailsPanel = new JPanel(new GridLayout(6, 2, 10, 10));
         detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Добавляем информацию о клане и типе орка
         detailsPanel.add(new JLabel("Клан: " + ork.getTribe()));
         detailsPanel.add(new JLabel("Тип орка: " + ork.getType()));
 
-        // Добавляем информацию о снаряжении
         detailsPanel.add(new JLabel("Оружие: " + ork.getWeapon().getName()));
         detailsPanel.add(new JLabel("Броня: " + ork.getArmor().getName()));
 
-        // Добавляем прогресс-бары для характеристик
         JProgressBar strengthBar = new JProgressBar(0, 100);
         JProgressBar agilityBar = new JProgressBar(0, 100);
         JProgressBar intelligenceBar = new JProgressBar(0, 50);
@@ -251,20 +244,15 @@ public class OrkGUI extends JFrame {
         detailsPanel.add(new JLabel("Здоровье: "));
         detailsPanel.add(healthBar);
 
-        // Добавляем все компоненты в основную панель
         orkInfoPanel.add(detailsPanel, BorderLayout.CENTER);
 
-        // Добавляем кнопку "Обратно"
         backButton.addActionListener((ActionEvent e) -> {
-//            Controller.resetOrkStaff(); // Сброс состояния контроллера
             GUIDesign.showCard(cardPanel, "BUTTON_PANEL"); // Показываем панель с кнопками
         });
         orkInfoPanel.add(backButton, BorderLayout.SOUTH);
-        // Обновляем панель
         orkInfoPanel.revalidate();
         orkInfoPanel.repaint();
 
-        // Показываем панель с информацией об орке
         GUIDesign.showCard(cardPanel, "ORK_INFO_PANEL");
     }
 

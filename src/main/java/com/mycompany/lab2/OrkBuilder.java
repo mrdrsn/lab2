@@ -5,6 +5,7 @@
 package com.mycompany.lab2;
 
 import com.github.javafaker.Faker;
+import java.util.Random;
 
 /**
  *
@@ -23,9 +24,14 @@ public abstract class OrkBuilder {
     public abstract void buildArmor();
     public abstract void buildBanner();
     
+    protected int getRandomValue(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min + 1) + min;
+    }
+    
     public void buildName(){
         Faker faker = new Faker();
-        ork.setName(faker.lordOfTheRings().character());
+        ork.setName(faker.lordOfTheRings().character() + "morg");
     }
     public void buildType(String type){
         ork.setType(type);

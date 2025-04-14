@@ -14,24 +14,24 @@ public class MordorOrkBuilder extends OrkBuilder{
         gearFactory = new MordorGearFactory();
     }
     
-    @Override
+     @Override
     public void buildStrength() {
-        ork.setStrength(80); //исправить через random
+        ork.setStrength(getRandomValue(70, 100)); // Высокая сила
     }
 
     @Override
     public void buildAgility() {
-        ork.setAgility(20);
+        ork.setAgility(getRandomValue(1, 40)); // Низкая ловкость
     }
 
     @Override
     public void buildIntelligence() {
-        ork.setIntelligence(0);
+        ork.setIntelligence(getRandomValue(1, 20)); // Очень низкий интеллект
     }
 
     @Override
     public void buildHp() {
-        ork.setHp(200);
+        ork.setHp(getRandomValue(150, 200)); // Высокое здоровье
     }
 
     @Override

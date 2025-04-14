@@ -16,22 +16,22 @@ public class MistyMountainsOrkBuilder extends OrkBuilder {
 
     @Override
     public void buildStrength() {
-        ork.setStrength(50);
+        ork.setStrength(getRandomValue(1, 40)); // Низкая сила
     }
 
     @Override
     public void buildAgility() {
-        ork.setAgility(80);
+        ork.setAgility(getRandomValue(70, 100)); // Высокая ловкость
     }
 
     @Override
     public void buildIntelligence() {
-        ork.setIntelligence(20);
+        ork.setIntelligence(getRandomValue(1, 15)); // Очень низкий интеллект
     }
 
     @Override
     public void buildHp() {
-        ork.setHp(200);
+        ork.setHp(getRandomValue(50, 100)); // Низкое здоровье
     }
 
     
