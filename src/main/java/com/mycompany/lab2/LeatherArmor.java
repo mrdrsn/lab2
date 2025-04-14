@@ -13,4 +13,9 @@ public class LeatherArmor implements Armor{
     public String toString(){
         return "Кожаная броня";
     }
+
+    @Override
+    public String getName() {
+        return "Кожаная броня";
+    }
 }

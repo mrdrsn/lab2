@@ -13,4 +13,9 @@ public class SteelArmor implements Armor{
     public String toString(){
         return "Стальная броня";
     }
+
+    @Override
+    public String getName() {
+        return "Стальная броня";
+    }
 }

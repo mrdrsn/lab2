@@ -13,5 +13,10 @@ public class Bow implements Weapon{
     public String toString(){
         return "Лук";
     }
+
+    @Override
+    public String getName() {
+        return "Лук";
+    }
     
 }

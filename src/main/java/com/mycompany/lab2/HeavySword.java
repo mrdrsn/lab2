@@ -13,4 +13,9 @@ public class HeavySword implements Weapon{
     public String toString(){
         return "Тяжелый меч";
     }
+
+    @Override
+    public String getName() {
+        return "Тяжелый меч";
+    }
 }

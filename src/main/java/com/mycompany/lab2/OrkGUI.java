@@ -1,34 +1,271 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.lab2;
 
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JTree;
+import javax.swing.SwingConstants;
+import javax.swing.tree.DefaultMutableTreeNode;
 
-/**
- *
- * @author nsoko
- */
-public class OrkGUI extends JFrame{
-    public OrkGUI(){
+public class OrkGUI extends JFrame {
+
+    private JTree orkTree;
+
+    public OrkGUI() {
         super("Лабораторная работа 2");
         JPanel panel = new JPanel();
         JButton startButton = new JButton("Приступить к созданию армии орков");
         JButton exitButton = new JButton("Выход из программы");
-        
-//        startButton.addActionListener(l);
-//        exitButton.addActionListener(l);
-//        JPanel treePanel = new JPanel();
-//        JPanel infoPanel = new JPanel();
+
+        add(startButton);
+        add(exitButton);
+
+        startButton.addActionListener((ActionEvent e) -> {
+            addMainFrame();
+        });
+
+        exitButton.addActionListener((ActionEvent e) -> {
+            System.exit(0);
+        });
+
         GUIDesign.startFrameDesign(panel, startButton, exitButton);
         getContentPane().add(panel);
-        setBounds(400,150,800,600);
+        setBounds(400, 150, 800, 600);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-    
+
+    private void addMainFrame() {
+        JFrame mainFrame = new JFrame("Настройка армии");
+        JPanel mainPanel = new JPanel();
+        JPanel treePanel = new JPanel();
+        JPanel infoPanel = new JPanel();
+        JPanel cardPanel = GUIDesign.createCardPanel();
+
+        JPanel buttonPanel = new JPanel();
+        JPanel orkInfoPanel = new JPanel(new BorderLayout());
+        orkInfoPanel.setBackground(Color.WHITE);
+
+        ArrayList<JComponent> tribeSet = createTribeList();
+        ArrayList<JComponent> typeSet = createTypeList();
+
+        JButton createMordorOrk = (JButton) tribeSet.get(1);
+        JButton createDolGuldurOrk = (JButton) tribeSet.get(2);
+        JButton createMistyMountainsOrk = (JButton) tribeSet.get(3);
+        addToPanel(tribeSet, buttonPanel);
+        GUIDesign.setNewLayout(buttonPanel, 4);
+
+        createMordorOrk.addActionListener((ActionEvent e)
+                -> handleTribeButtonAction(buttonPanel, typeSet, createMordorOrk.getText())
+        );
+        createDolGuldurOrk.addActionListener((ActionEvent e)
+                -> handleTribeButtonAction(buttonPanel, typeSet, createDolGuldurOrk.getText())
+        );
+        createMistyMountainsOrk.addActionListener((ActionEvent e)
+                -> handleTribeButtonAction(buttonPanel, typeSet, createMistyMountainsOrk.getText())
+        );
+
+        JButton baseOrkButton = (JButton) typeSet.get(1);
+        JButton scoutOrkButton = (JButton) typeSet.get(2);
+        JButton leaderOrkButton = (JButton) typeSet.get(3);
+        JButton backTribeButton = (JButton) typeSet.get(4);
+
+        baseOrkButton.addActionListener((ActionEvent e) -> {
+            handleTypeButtonAction(baseOrkButton);
+        });
+        scoutOrkButton.addActionListener((ActionEvent e) -> {
+            handleTypeButtonAction(scoutOrkButton);
+        });
+        leaderOrkButton.addActionListener((ActionEvent e) -> {
+            handleTypeButtonAction(leaderOrkButton);
+        });
+        backTribeButton.addActionListener((ActionEvent e) -> {
+            Controller.resetOrkStaff();
+            clearPanel(buttonPanel);
+            addToPanel(tribeSet, buttonPanel);
+            GUIDesign.setNewLayout(buttonPanel, 4);
+        });
+
+        orkTree = TreeModelCreator.createArmyTree();
+        treePanel.add(orkTree);
+
+        // Добавляем обе панели в cardPanel
+        cardPanel.add(buttonPanel, "BUTTON_PANEL");
+        cardPanel.add(orkInfoPanel, "ORK_INFO_PANEL");
+
+        // Панель для знамени и горна
+        JPanel flagAndHornPanel = new JPanel(new GridLayout(2, 1)); // 2 строки, 1 колонка
+        flagAndHornPanel.setBackground(Color.LIGHT_GRAY);
+
+        // Добавляем метки для знамени и горна
+        JLabel flagLabel = new JLabel("Знамя: ");
+        JLabel hornLabel = new JLabel("Горн: ");
+
+        flagAndHornPanel.add(flagLabel);
+        flagAndHornPanel.add(hornLabel);
+        JButton backButton = new JButton("Вернуться обратно к созданию орка");
+        backButton.addActionListener((ActionEvent e) -> {
+//            Controller.resetOrkStaff(); // Сброс состояния контроллера
+            CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+            cardLayout.show(cardPanel, "BUTTON_PANEL"); // Показываем панель с кнопками
+        });
+
+        orkTree.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) { // Проверяем двойной клик
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) orkTree.getLastSelectedPathComponent();
+                    if (selectedNode != null && selectedNode.getUserObject() instanceof Ork) {
+                        Ork selectedOrk = (Ork) selectedNode.getUserObject();
+                        displayOrkInfo(cardPanel, selectedOrk, backButton); // Отображаем информацию об орке
+                    }
+                }
+            }
+        });
+
+        GUIDesign.setDiviationDesign(mainPanel, treePanel, cardPanel);
+//        GUIDesign.infoPanelPosition(mainPanel, infoPanel, buttonPanel);
+//        treePanel.add(orkTree);
+        mainFrame.add(mainPanel);
+        mainFrame.setBounds(400, 150, 800, 600);
+        mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    private void clearPanel(JPanel panelToClear) {
+        panelToClear.removeAll();
+        panelToClear.revalidate();
+        panelToClear.repaint();
+    }
+
+
+    private ArrayList<JComponent> createTribeList() {
+        ArrayList<JComponent> tribeSet = new ArrayList<>();
+
+        JButton createMordorOrk = new JButton("Племя Мордор");
+        JButton createDolGuldurOrk = new JButton("Племя Дол Гулдур");
+        JButton createMistyMountainsOrk = new JButton("Племя Мглистые Горы");
+        JLabel chooseTribe = new JLabel("Выберите племя...");
+        chooseTribe.setHorizontalAlignment(SwingConstants.CENTER);
+
+        tribeSet.add(chooseTribe);
+        tribeSet.add(createMordorOrk);
+        tribeSet.add(createDolGuldurOrk);
+        tribeSet.add(createMistyMountainsOrk);
+
+        return tribeSet;
+    }
+
+    private ArrayList<JComponent> createTypeList() {
+        ArrayList<JComponent> typeSet = new ArrayList<>();
+
+        JButton basikOrkButton = new JButton("Базовый орк");
+        JButton scoutOrkButton = new JButton("Орк-разведчик");
+        JButton leaderOrkButton = new JButton("Орк-командир");
+        JLabel chooseType = new JLabel("Выберите тип орка...");
+        JButton backButton = new JButton("Вернуться к выбору племени...");
+        backButton.setPreferredSize(new Dimension(50, 25));
+        chooseType.setHorizontalAlignment(SwingConstants.CENTER);
+
+        typeSet.add(chooseType);
+        typeSet.add(basikOrkButton);
+        typeSet.add(scoutOrkButton);
+        typeSet.add(leaderOrkButton);
+        typeSet.add(backButton);
+
+        return typeSet;
+    }
+
+    private void addToPanel(ArrayList<JComponent> list, JPanel panelToAdd) {
+        for (JComponent component : list) {
+            panelToAdd.add(component);
+        }
+    }
+
+    private void handleTribeButtonAction(JPanel buttonPanel, ArrayList<JComponent> typeSet, String tribeName) {
+        clearPanel(buttonPanel); // Очищаем панель
+        addToPanel(typeSet, buttonPanel); // Добавляем новые компоненты
+        Controller.tribeButtonPressed(tribeName); // Обрабатываем выбор племени
+        TreeModelCreator.addTribeRoot(orkTree, tribeName);
+        GUIDesign.setNewLayout(buttonPanel, 5);
+    }
+
+    private void handleTypeButtonAction(JButton typeButton) {
+        Controller.typeButtonPressed(typeButton.getText());
+        String tribeName = Controller.getTribe();
+        Ork orkFromController = Controller.getOrk();
+        TreeModelCreator.addOrkRoot(orkTree, orkFromController, tribeName);
+    }
+
+    private void displayOrkInfo(JPanel cardPanel, Ork ork, JButton backButton) {
+        // Получаем CardLayout и панели
+        JPanel orkInfoPanel = (JPanel) cardPanel.getComponent(1); // ORK_INFO_PANEL
+
+        // Очищаем панель с информацией об орке
+        orkInfoPanel.removeAll();
+
+        // Создаем новую панель для отображения информации об орке
+        JPanel detailsPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Добавляем информацию о клане и типе орка
+        detailsPanel.add(new JLabel("Клан: " + ork.getTribe()));
+        detailsPanel.add(new JLabel("Тип орка: " + ork.getType()));
+
+        // Добавляем информацию о снаряжении
+        detailsPanel.add(new JLabel("Оружие: " + ork.getWeapon().getName()));
+        detailsPanel.add(new JLabel("Броня: " + ork.getArmor().getName()));
+
+        // Добавляем прогресс-бары для характеристик
+        JProgressBar strengthBar = new JProgressBar(0, 100);
+        JProgressBar agilityBar = new JProgressBar(0, 100);
+        JProgressBar intelligenceBar = new JProgressBar(0, 50);
+        JProgressBar healthBar = new JProgressBar(50, 200);
+
+        strengthBar.setValue(ork.getStrength());
+        agilityBar.setValue(ork.getAgility());
+        intelligenceBar.setValue(ork.getIntelligence());
+        healthBar.setValue(ork.getHealth());
+
+        detailsPanel.add(new JLabel("Сила: "));
+        detailsPanel.add(strengthBar);
+        detailsPanel.add(new JLabel("Ловкость: "));
+        detailsPanel.add(agilityBar);
+        detailsPanel.add(new JLabel("Интеллект: "));
+        detailsPanel.add(intelligenceBar);
+        detailsPanel.add(new JLabel("Здоровье: "));
+        detailsPanel.add(healthBar);
+
+        // Добавляем все компоненты в основную панель
+        orkInfoPanel.add(detailsPanel, BorderLayout.CENTER);
+
+        // Добавляем кнопку "Обратно"
+        backButton.addActionListener((ActionEvent e) -> {
+//            Controller.resetOrkStaff(); // Сброс состояния контроллера
+            GUIDesign.showCard(cardPanel, "BUTTON_PANEL"); // Показываем панель с кнопками
+        });
+        orkInfoPanel.add(backButton, BorderLayout.SOUTH);
+        // Обновляем панель
+        orkInfoPanel.revalidate();
+        orkInfoPanel.repaint();
+
+        // Показываем панель с информацией об орке
+        GUIDesign.showCard(cardPanel, "ORK_INFO_PANEL");
+    }
+
 }

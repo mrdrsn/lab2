@@ -13,4 +13,10 @@ public class MoonBanner implements Banner{
     public String toString(){
         return "Знамя с Луной";
     }
+
+    @Override
+    public String getName() {
+        return "Знамя с Луной";
+    }
+    
 }

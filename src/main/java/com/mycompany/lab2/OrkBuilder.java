@@ -14,7 +14,7 @@ public abstract class OrkBuilder {
     protected OrkGearFactory gearFactory;
     protected Ork ork;
     
-    
+    public abstract void buildTribe();
     public abstract void buildStrength();
     public abstract void buildAgility();
     public abstract void buildIntelligence();
@@ -27,7 +27,9 @@ public abstract class OrkBuilder {
         Faker faker = new Faker();
         ork.setName(faker.lordOfTheRings().character());
     }
-    
+    public void buildType(String type){
+        ork.setType(type);
+    }
     public void buildBow(){
         Weapon bow = new Bow();
         ork.setWeapon(bow);

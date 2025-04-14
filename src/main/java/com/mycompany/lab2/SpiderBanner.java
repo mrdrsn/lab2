@@ -13,4 +13,9 @@ public class SpiderBanner implements Banner {
     public String toString(){
         return "Знамя с пауком";
     }
+
+    @Override
+    public String getName() {
+        return "Знамя с пауком";
+    }
 }

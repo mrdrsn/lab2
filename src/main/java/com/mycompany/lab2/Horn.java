@@ -13,4 +13,7 @@ public class Horn {
    public String toString(){
        return "Горн есть";
    } 
+   public String getName(){
+       return "У орка есть горн.";
+   }
 }

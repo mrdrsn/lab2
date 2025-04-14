@@ -18,6 +18,8 @@ public class OrkDirector {
     }
     public void createBasicOrk(){
         orkBuilder.createNewOrk();
+        orkBuilder.buildType("Базовый орк");
+        orkBuilder.buildTribe();
         orkBuilder.buildName();
         orkBuilder.buildStrength();
         orkBuilder.buildAgility();
@@ -28,10 +30,12 @@ public class OrkDirector {
     }
     public void createScoutOrk(){
         createBasicOrk();
+        orkBuilder.buildType("Орк-разведчик");
         orkBuilder.buildBow();
     }
     public void createLeaderOrk(){
         createBasicOrk();
+        orkBuilder.buildType("Орк-командир");
         orkBuilder.buildBanner();
         orkBuilder.buildHorn();
     }

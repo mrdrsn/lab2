@@ -13,4 +13,9 @@ public class RedEyeBanner implements Banner{
     public String toString(){
         return "Знамя с Красным Оком";
     }
+
+    @Override
+    public String getName() {
+        return "Знамя с Красным Оком";
+    }
 }

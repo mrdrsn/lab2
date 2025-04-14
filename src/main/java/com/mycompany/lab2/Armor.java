@@ -9,5 +9,5 @@ package com.mycompany.lab2;
  * @author nsoko
  */
 public interface Armor {
-    
+    String getName();
 }

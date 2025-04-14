@@ -1,6 +1,8 @@
 package com.mycompany.lab2;
 
 public class Ork {
+    private String tribe;
+    private String type;
     private String name;
     private Weapon weapon;
     private Armor armor;
@@ -11,6 +13,12 @@ public class Ork {
     private int intelligence;
     private int hp;
     
+    public void setTribe(String tribe){
+        this.tribe = tribe;
+    }
+    public void setType(String type){
+        this.type = type;
+    }
     public void setName(String name){
         this.name = name;
     }
@@ -40,11 +48,56 @@ public class Ork {
     }
     
     @Override
+//    public String toString(){
+//        return this.name + "\nСила: " + this.strength + "\nЛовкость: " + this.agility + "\nИнтеллект: " + this.intelligence +
+//                "\nЗдоровье: " + this.hp + "\nОружие: " + this.weapon + "\nБроня: " + this.armor + "\nЗнамя: " + (this.banner == null ? "У этого орка нет знамени!" : this.banner) + 
+//                "\nГорн: " + (this.horn == null ? "У этого орка нет горна!" : this.horn); 
+//                
+//    }
     public String toString(){
-        return this.name + "\nСила: " + this.strength + "\nЛовкость: " + this.agility + "\nИнтеллект: " + this.intelligence +
-                "\nЗдоровье: " + this.hp + "\nОружие: " + this.weapon + "\nБроня: " + this.armor + "\nЗнамя: " + (this.banner == null ? "У этого орка нет знамени!" : this.banner) + 
-                "\nГорн: " + (this.horn == null ? "У этого орка нет горна!" : this.horn); 
-                
+        return this.name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+    public String getType(){
+        return this.type;
+    }
+
+    public String getTribe() {
+        return this.tribe;
+    }
+
+    public Weapon getWeapon() {
+        return this.weapon;
+    }
+
+    public Armor getArmor() {
+        return this.armor;
+    }
+
+    public Banner getBanner() {
+        return this.banner;
+    }
+
+    public int getStrength() {
+        return this.strength;
+    }
+
+    public int getAgility() {
+        return this.agility;
+    }
+
+    public int getIntelligence() {
+        return this.intelligence;
+    }
+
+    public int getHealth() {
+        return this.hp;
+    }
+    public Horn getHorn(){
+        return this.horn;
     }
          
 }

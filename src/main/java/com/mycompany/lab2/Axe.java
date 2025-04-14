@@ -13,4 +13,9 @@ public class Axe implements Weapon {
     public String toString(){
         return "Топор";
     }
+
+    @Override
+    public String getName() {
+        return "Топор";
+    }
 }

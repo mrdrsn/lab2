@@ -13,4 +13,9 @@ public class ChainArmor implements Armor{
     public String toString(){
         return "Кольчуга";
     }
+
+    @Override
+    public String getName() {
+        return "Кольчуга";
+    }
 }

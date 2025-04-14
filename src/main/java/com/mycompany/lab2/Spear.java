@@ -13,4 +13,9 @@ public class Spear implements Weapon {
     public String toString(){
         return "Копье";
     }
+
+    @Override
+    public String getName() {
+        return "Копье";
+    }
 }

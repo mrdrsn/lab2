@@ -40,5 +40,10 @@ public class DolGuldurOrkBuilder extends OrkBuilder {
     public void buildBanner() {
         ork.setBanner(gearFactory.createBanner());
     }
+
+    @Override
+    public void buildTribe() {
+       ork.setTribe("Племя Дол Гулдур");
+    }
     
 }
