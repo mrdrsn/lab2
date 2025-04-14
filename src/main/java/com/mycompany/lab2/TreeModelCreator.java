@@ -20,7 +20,7 @@ public class TreeModelCreator {
         myOrkTree.setBackground(Color.LIGHT_GRAY);
         myOrkTree.setCellRenderer(new CustomTreeCellRenderer());
         JScrollPane scrollPane = new JScrollPane(myOrkTree);
-        scrollPane.setPreferredSize(new Dimension(250, 600)); // Устанавливаем размер скролл-панели
+        scrollPane.setPreferredSize(new Dimension(250, 600)); 
 
         return scrollPane;
     }
@@ -34,23 +34,18 @@ public class TreeModelCreator {
         DefaultTreeModel model = (DefaultTreeModel) orkTree.getModel();
         DefaultMutableTreeNode mainRoot = (DefaultMutableTreeNode) model.getRoot();
         model.insertNodeInto(newTribe, mainRoot, mainRoot.getChildCount());
-        // Уведомляем модель об изменении структуры дерева
         model.reload(mainRoot);
     }
 
     public static void addOrkRoot(JScrollPane orkScroll, Ork orkFromController, String tribeName) {
         JTree orkTree = (JTree) orkScroll.getViewport().getView();
 
-        // Создаем новый узел для орка
         DefaultMutableTreeNode newOrk = new DefaultMutableTreeNode(orkFromController);
 
-        // Получаем модель дерева
         DefaultTreeModel model = (DefaultTreeModel) orkTree.getModel();
 
-        // Получаем корневой узел
         DefaultMutableTreeNode mainRoot = (DefaultMutableTreeNode) model.getRoot();
 
-        // Находим узел племени по имени
         DefaultMutableTreeNode tribeNode = null;
         for (int i = 0; i < mainRoot.getChildCount(); i++) {
             DefaultMutableTreeNode child = (DefaultMutableTreeNode) mainRoot.getChildAt(i);
@@ -60,7 +55,6 @@ public class TreeModelCreator {
             }
         }
 
-        // Если узел племени найден, добавляем орка
         if (tribeNode != null) {
             model.insertNodeInto(newOrk, tribeNode, tribeNode.getChildCount());
             model.reload(tribeNode); // Обновляем отображение
@@ -95,15 +89,11 @@ public class TreeModelCreator {
                 boolean leaf, int row, boolean hasFocus) {
             super.getTreeCellRendererComponent(tree, value, isSelected, expanded, leaf, row, hasFocus);
 
-            // Настройка цвета фона для неактивных узлов
             setBackgroundNonSelectionColor(Color.LIGHT_GRAY);
             setForeground(Color.WHITE); // Цвет текста для неактивных узлов
 
-            // Настройка цвета фона для выделенных узлов
             setBackgroundSelectionColor(Color.DARK_GRAY);
-//            setForegroundSelectionColor(Color.WHITE); // Цвет текста для выделенных узлов
             setTextSelectionColor(Color.WHITE);
-//            setSelectionBorder(Color.BLACK);
 
             return this;
         }

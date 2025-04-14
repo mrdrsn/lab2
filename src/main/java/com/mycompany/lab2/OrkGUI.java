@@ -102,15 +102,12 @@ public class OrkGUI extends JFrame {
         orkTree = TreeModelCreator.createArmyTree();
         treePanel.add(orkTree);
 
-        // Добавляем обе панели в cardPanel
         cardPanel.add(buttonPanel, "BUTTON_PANEL");
         cardPanel.add(orkInfoPanel, "ORK_INFO_PANEL");
 
-        // Панель для знамени и горна
         JPanel flagAndHornPanel = new JPanel(new GridLayout(2, 1)); // 2 строки, 1 колонка
         flagAndHornPanel.setBackground(Color.LIGHT_GRAY);
 
-        // Добавляем метки для знамени и горна
         JLabel flagLabel = new JLabel("Знамя: ");
         JLabel hornLabel = new JLabel("Горн: ");
 
@@ -138,8 +135,6 @@ public class OrkGUI extends JFrame {
         });
 
         GUIDesign.setDiviationDesign(mainPanel, treePanel, cardPanel);
-//        GUIDesign.infoPanelPosition(mainPanel, infoPanel, buttonPanel);
-//        treePanel.add(orkTree);
         mainFrame.add(mainPanel);
         mainFrame.setBounds(400, 150, 800, 600);
         mainFrame.setVisible(true);
@@ -197,9 +192,9 @@ public class OrkGUI extends JFrame {
     }
 
     private void handleTribeButtonAction(JPanel buttonPanel, ArrayList<JComponent> typeSet, String tribeName) {
-        clearPanel(buttonPanel); // Очищаем панель
-        addToPanel(typeSet, buttonPanel); // Добавляем новые компоненты
-        Controller.tribeButtonPressed(tribeName); // Обрабатываем выбор племени
+        clearPanel(buttonPanel); 
+        addToPanel(typeSet, buttonPanel); 
+        Controller.tribeButtonPressed(tribeName); 
         TreeModelCreator.addTribeRoot(orkTree, tribeName);
         GUIDesign.setNewLayout(buttonPanel, 5);
     }
@@ -247,7 +242,7 @@ public class OrkGUI extends JFrame {
         orkInfoPanel.add(detailsPanel, BorderLayout.CENTER);
 
         backButton.addActionListener((ActionEvent e) -> {
-            GUIDesign.showCard(cardPanel, "BUTTON_PANEL"); // Показываем панель с кнопками
+            GUIDesign.showCard(cardPanel, "BUTTON_PANEL"); 
         });
         orkInfoPanel.add(backButton, BorderLayout.SOUTH);
         orkInfoPanel.revalidate();

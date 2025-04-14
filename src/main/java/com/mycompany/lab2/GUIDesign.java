@@ -44,11 +44,9 @@ public class GUIDesign {
     public static void setDiviationDesign(JPanel mainPanel, JPanel treePanel, JPanel cardPanel) {
         mainPanel.setLayout(new BorderLayout());
 
-        // Настройка левой панели (дерево)
         treePanel.setBackground(Color.LIGHT_GRAY);
         treePanel.setPreferredSize(new Dimension(250, 600));
 
-        // Настройка правой панели (CardLayout)
         cardPanel.setBackground(Color.ORANGE);
 
         mainPanel.add(treePanel, BorderLayout.WEST);

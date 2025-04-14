@@ -8,22 +8,22 @@ public class DolGuldurOrkBuilder extends OrkBuilder {
 
     @Override
     public void buildStrength() {
-        ork.setStrength(getRandomValue(40, 70)); // Сбалансированная сила
+        ork.setStrength(getRandomValue(40, 70));
     }
 
     @Override
     public void buildAgility() {
-        ork.setAgility(getRandomValue(40, 70)); // Сбалансированная ловкость
+        ork.setAgility(getRandomValue(40, 70)); 
     }
 
     @Override
     public void buildIntelligence() {
-        ork.setIntelligence(getRandomValue(20, 50)); // Умеренный интеллект
+        ork.setIntelligence(getRandomValue(20, 50));
     }
 
     @Override
     public void buildHp() {
-        ork.setHp(getRandomValue(100, 150)); // Среднее здоровье
+        ork.setHp(getRandomValue(100, 150)); 
     }
 
     @Override

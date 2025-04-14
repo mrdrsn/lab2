@@ -16,22 +16,22 @@ public class MordorOrkBuilder extends OrkBuilder{
     
      @Override
     public void buildStrength() {
-        ork.setStrength(getRandomValue(70, 100)); // Высокая сила
+        ork.setStrength(getRandomValue(70, 100));
     }
 
     @Override
     public void buildAgility() {
-        ork.setAgility(getRandomValue(1, 40)); // Низкая ловкость
+        ork.setAgility(getRandomValue(1, 40)); 
     }
 
     @Override
     public void buildIntelligence() {
-        ork.setIntelligence(getRandomValue(1, 20)); // Очень низкий интеллект
+        ork.setIntelligence(getRandomValue(1, 20)); 
     }
 
     @Override
     public void buildHp() {
-        ork.setHp(getRandomValue(150, 200)); // Высокое здоровье
+        ork.setHp(getRandomValue(150, 200)); 
     }
 
     @Override
